@@ -3,6 +3,8 @@ const color = ['red', 'blue', 'green', 'orange'];
 let result = Array.from(document.querySelectorAll('.result'));
 result[1].innerText = window.localStorage.getItem('value');
 // window.localStorage.clear()
+
+//переменная для изменения сетки игрового поля
 let num = window.sessionStorage.getItem('num') == null ? 10 : window.sessionStorage.getItem('num');
 console.log(num);
 setKube()
