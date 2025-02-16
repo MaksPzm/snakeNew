@@ -9,6 +9,46 @@ let num = window.sessionStorage.getItem('num') == null ? 10 : window.sessionStor
 console.log(num);
 setKube()
 
+//ф-ция выбора сетки 
+function setKube() {
+    const input = Array.from(document.getElementsByClassName('inputKube'));
+    if (num == 10) {
+        input[0].setAttribute('checked', 'checked')
+        input[0].checked = true; 
+    } else if (num == 20) {
+        input[1].setAttribute('checked', 'checked')
+        input[1].checked = true; 
+    }
+    
+    input.forEach(value => {
+        value.addEventListener('click', function(event) {
+            if (value.checked) {
+                input.forEach((index) => {
+                    index.removeAttribute('checked');
+                    index.checked = false;
+                })
+            } 
+            
+            value.setAttribute('checked', 'checked')
+                value.checked = true;
+            if (input[0].hasAttribute('checked')) {
+                num = 10;
+                console.log('num', num);
+                window.sessionStorage.setItem('num', 10);
+                input[0].click()  
+                // event.preventDefault()
+            } else if (input[1].hasAttribute('checked')) {
+                num = 20;
+                console.log('num', num);
+                window.sessionStorage.setItem('num', 20);
+                input[1].click()
+                // event.preventDefault()
+            }    
+            
+        })
+    })
+}
+
 // создаём кубы игравого поля через класс
 class Filds {
     constructor(coordinatesX, coordinatesY) {
@@ -25,8 +65,7 @@ class Filds {
                 createFildCube.classList.add('kube');
             } else if (num == 20) {
                 createFildCube.classList.add('kubeMax');
-            }
-                     
+            }          
         }
     }
 }
@@ -38,8 +77,7 @@ gameFilds.fildSize()
 
 
 // присваиваем кубу атрибуты с координатами
-function setPosition() {
-    
+function setPosition() {  
 
     let x = 1, y = num;
     let newNum = num * num;
@@ -100,7 +138,6 @@ class Coordinate {
 
 const showSnake = new Coordinate(showRandomSnake(), 'snakeBody'); 
 showSnake.showRadomSnake()   //выводим на экран змею
-
 
 let snakeBody = Array.from(document.querySelectorAll('.snakeBody'));
 let snakeHead = document.querySelector('.snakeHead'); 
@@ -346,43 +383,5 @@ formBtn.addEventListener('click', function() {
     getDifficultyLevel.setAttribute('hidden', 'hidden'); // добавляем атрибут, для того что бы панель выбора сложности выкл при нажатии на кнопку
 })
 
-//ф-ция выбора сетки 
-function setKube() {
-    const input = Array.from(document.getElementsByClassName('inputKube'));
-    if (num == 10) {
-        input[0].setAttribute('checked', 'checked')
-        input[0].checked = true; 
-    } else if (num == 20) {
-        input[1].setAttribute('checked', 'checked')
-        input[1].checked = true; 
-    }
-    
-    input.forEach(value => {
-        value.addEventListener('click', function(event) {
-            if (value.checked) {
-                input.forEach((index) => {
-                    index.removeAttribute('checked');
-                    index.checked = false;
-                })
-            } 
-            
-            value.setAttribute('checked', 'checked')
-                value.checked = true;
-            if (input[0].hasAttribute('checked')) {
-                num = 10;
-                console.log('num', num);
-                window.sessionStorage.setItem('num', 10);
-                input[0].click()  
-                // event.preventDefault()
-            } else if (input[1].hasAttribute('checked')) {
-                num = 20;
-                console.log('num', num);
-                window.sessionStorage.setItem('num', 20);
-                input[1].click()
-                // event.preventDefault()
-            }    
-            
-        })
-    })
-}
+
 
