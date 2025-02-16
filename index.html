@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="snake.js" defer></script>
+    <title>SNAKE</title>
+</head>
+<body>
+    <div class="playingField">
+        <div class="menuResult">
+            <div class="result">С</div>
+            <div class="result">Л</div>
+            <button class="buttonStart active" type="button">Play</button>
+            <button class="buttonStart buttonRestart" type="button">Restart</button>
+            <img class="img-snake" src="images/snake.svg" alt="змейка">
+        </div>
+        <div class="game"></div>
+        <div class="difficultyLevel">
+            <h3 class="difficultyLevel__title">Выберети уровень сложности</h3>
+            <form class="form" action="">
+                <label for="easy">Легко
+                <input type="checkbox" name="1" class="input" id="easy" checked="checked">    
+                </label>
+                <label for="average">Средняя
+                <input type="checkbox" name="2" class="input" id="average">    
+                </label>
+                <label for="heavy">Тяжёлая
+                <input type="checkbox" name="3" class="input" id="heavy">    
+                </label>
+                <button type="button" class="form__btn">Выбрано</button>
+            </form>
+            <form class="form-kube">
+                <label for="minKube">10x10
+                    <input type="checkbox" class="inputKube" name="1" id="minKube">
+                </label>
+                <label for="maxKube">20x20
+                    <input type="checkbox" class="inputKube" name="2" id="maxKube">
+                </label>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
