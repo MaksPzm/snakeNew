@@ -4,13 +4,13 @@ let result = Array.from(document.querySelectorAll('.result'));
 result[1].innerText = window.localStorage.getItem('value');
 // window.localStorage.clear()
 
-//переменная для изменения сетки игрового поля
+//переменная для изменения сетки игрового поля. Если сразу установить число, тогда срабатывает сразу без перезагрузки
 let num = window.sessionStorage.getItem('num') == null ? 10 : window.sessionStorage.getItem('num');
 console.log(num);
-setKube()
+setKubeNavigation()
 
 //ф-ция выбора сетки 
-function setKube() {
+function setKubeNavigation() {
     const input = Array.from(document.getElementsByClassName('inputKube'));
     if (num == 10) {
         input[0].setAttribute('checked', 'checked')
