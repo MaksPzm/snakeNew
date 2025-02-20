@@ -2,11 +2,14 @@ const fild = document.querySelector('.game');
 const color = ['red', 'blue', 'green', 'orange'];
 let result = Array.from(document.querySelectorAll('.result'));
 result[1].innerText = window.localStorage.getItem('value');
-// window.localStorage.clear()
 
 //переменная для изменения сетки игрового поля. Если сразу установить число, тогда срабатывает сразу без перезагрузки
-let num = window.sessionStorage.getItem('num') == null ? 10 : window.sessionStorage.getItem('num');
-console.log(num);
+let num = 0;
+
+window.onload = (() => { 
+    num = +(window.localStorage.getItem('num'))
+})()
+ 
 setKubeNavigation()
 
 //ф-ция выбора сетки 
@@ -21,7 +24,7 @@ function setKubeNavigation() {
     }
     
     input.forEach(value => {
-        value.addEventListener('click', function(event) {
+        value.addEventListener('input', function(event) {
             if (value.checked) {
                 input.forEach((index) => {
                     index.removeAttribute('checked');
@@ -33,18 +36,15 @@ function setKubeNavigation() {
                 value.checked = true;
             if (input[0].hasAttribute('checked')) {
                 num = 10;
-                console.log('num', num);
-                window.sessionStorage.setItem('num', 10);
-                input[0].click()  
-                // event.preventDefault()
+                window.localStorage.setItem('num', 10);
+                input[0].click() 
+                location.reload()
             } else if (input[1].hasAttribute('checked')) {
                 num = 20;
-                console.log('num', num);
-                window.sessionStorage.setItem('num', 20);
+                window.localStorage.setItem('num', 20);
                 input[1].click()
-                // event.preventDefault()
-            }    
-            
+                location.reload()
+            }      
         })
     })
 }
@@ -70,15 +70,11 @@ class Filds {
     }
 }
 
-
-
 const gameFilds = new Filds(num, num);
 gameFilds.fildSize()
 
-
 // присваиваем кубу атрибуты с координатами
-function setPosition() {  
-
+function getPosition() {  
     let x = 1, y = num;
     let newNum = num * num;
     for (let i = 0; i < newNum; i++) {
@@ -97,10 +93,9 @@ function setPosition() {
             kubeMax[i].setAttribute('data-Y', y);
             x++; 
         }
-           
     }
 }
-setPosition() 
+getPosition() 
 
 const Random = (max, min) => Math.floor(Math.random() * (max - min) + min);
 
@@ -111,7 +106,6 @@ let randomPositionX = Random(max, min);
 let randomPositionY = Random(max, 2);
 return [randomPositionX, randomPositionY]
 }
-//console.log('showRandomSnake(): ', showRandomSnake());
 
 class Coordinate {
     constructor(coordinates, className) { // в параметры добавляем координаты и название добавляемого класса //
@@ -164,17 +158,12 @@ function getRandomFood() {
     }
     food.classList.add('food')
 }
-    
 getRandomFood()
 
 let direction = "ArrowUp"; // если эту переменную создаем в функции события, тогда она при каждом нажатии перезаписывается заново
     
-// управление на стрелках    
-
-  let stop = false;  
-
-// console.log(snakeBody);
-
+let stop = false;  
+// управление на стрелках   
 function move() {    
     const coordinatesSnake = [snakeBody[0].getAttribute('data-X'), snakeBody[0].getAttribute('data-Y')];   
     
@@ -196,7 +185,6 @@ function move() {
         
         if (coordinatesSnake[1] > 1) {
             snakeBody.unshift(document.querySelector('[data-X = "' + coordinatesSnake[0] + '"][data-Y = "' + (+coordinatesSnake[1] - 1) + '"]'));
-            // console.log('snakeBody2: ', snakeBody);  
         } else {
             snakeBody.unshift(document.querySelector('[data-X = "' + coordinatesSnake[0] + '"][data-Y = "' + num + '"]'));
         }
@@ -205,8 +193,7 @@ function move() {
     if (direction == 'ArrowLeft') {
         
         if (coordinatesSnake[0] > 1) {
-            snakeBody.unshift(document.querySelector('[data-X = "' + (+coordinatesSnake[0] - 1) + '"][data-Y = "' + coordinatesSnake[1] + '"]'));
-            // console.log('snakeBody2: ', snakeBody);  
+            snakeBody.unshift(document.querySelector('[data-X = "' + (+coordinatesSnake[0] - 1) + '"][data-Y = "' + coordinatesSnake[1] + '"]')); 
         } else {
             snakeBody.unshift(document.querySelector('[data-X = "'+ num +'"][data-Y = "' + coordinatesSnake[1] + '"]'));
         } 
@@ -215,8 +202,7 @@ function move() {
     if (direction == 'ArrowRight') {
         
         if (coordinatesSnake[0] < num) {
-            snakeBody.unshift(document.querySelector('[data-X = "' + (+coordinatesSnake[0] + 1) + '"][data-Y = "' + coordinatesSnake[1] + '"]'));
-            // console.log('snakeBody2: ', snakeBody);  
+            snakeBody.unshift(document.querySelector('[data-X = "' + (+coordinatesSnake[0] + 1) + '"][data-Y = "' + coordinatesSnake[1] + '"]')); 
         } else {
             snakeBody.unshift(document.querySelector('[data-X = "1"][data-Y = "' + coordinatesSnake[1] + '"]'));
         } 
@@ -236,7 +222,6 @@ function move() {
     stop = true; // нужно, что бы кнопки направления сразу не сработали 
 }
 
-
 const buttonStart = document.querySelector('.buttonStart');
 const restart = document.querySelector('.buttonRestart');
 const getDifficultyLevel = document.querySelector('.difficultyLevel'); // поиск блока выбора сложности
@@ -248,12 +233,9 @@ buttonStart.addEventListener('click', function() {
     getDifficultyLevel.setAttribute('hidden', 'hidden'); // добавляем атрибут, для того что бы панель выбора сложности выкл
 });
 
-
-
 //запуск по кнопки enter
 window.addEventListener('keydown', function (e) {
     let key = e.key;
-    // console.log('key', key);
     if (key === 'Enter') { // код клавиши Enter
       buttonStart.click();
     }
@@ -264,28 +246,19 @@ restart.addEventListener('click', function() {
     num = window.sessionStorage.getItem('num')
 });
 
-
 // записывает нажатия кнопки направления в переменную, для того что бы нельзя было резко поменять направление на противоположное
 window.addEventListener('keydown', function(e) {
     if (stop == true) {
         if (e.key == "ArrowUp" && (direction != 'ArrowDown')) {
-            // console.log('e.key : ', e.key );
             direction = 'ArrowUp';
             stop = false;
-            // console.log('true: ', true);
         } else if (e.key == "ArrowDown" && (direction != 'ArrowUp')) {
-            // console.log('e.key: ', e.key);
-            // console.log('true: ', true);
             direction = 'ArrowDown';
             stop = false;
         } else if (e.key == "ArrowLeft" && direction != ('ArrowRight')) {
-            // console.log('e.key: ', e.key);
-            // console.log('true: ', true);
             direction = 'ArrowLeft';
             stop = false;
         } else if (e.key == "ArrowRight"  && direction != ('ArrowLeft')) {
-            // console.log('e.key: ', e.key);
-            // console.log('true: ', true);
             direction = 'ArrowRight';
             stop = false;
         }
@@ -293,13 +266,11 @@ window.addEventListener('keydown', function(e) {
 })
 
 // после того как съела еду. Еда должна появиться заново
-
 function ateFood() {
     const food = document.querySelector('.food');
     const snakeHead = document.querySelectorAll('.snakeHead');
     
     if ((snakeHead[0].getAttribute('data-X') == food.getAttribute('data-X')) && (snakeHead[0].getAttribute('data-Y') == food.getAttribute('data-Y'))) {
-        // console.log('ЗАШЁЛ');
         food.classList.remove('food');
         getRandomFood()
         addinfBodeSnake()
@@ -314,7 +285,6 @@ function addinfBodeSnake() {
         let a = snakeBody[snakeBody.length - 1].getAttribute('data-X');
         let b = snakeBody[snakeBody.length - 1].getAttribute('data-Y');
         snakeBody.push(document.querySelector('[data-X = "' + a + '"][data-Y = "' + b + '"]'));
-        // console.log('ПРОВЕРЬ!!!!!!!!: ', snakeBody);   
     }
 }
 

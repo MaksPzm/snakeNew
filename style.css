@@ -98,6 +98,7 @@ display: none;
 
 .food {
     background-color: red;
+    border-radius: 50%;
 }
 
 .gameOverText {
